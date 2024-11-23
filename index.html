@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Reader</title>
+</head>
+<body>
+    <h1>Phone NFC Reader</h1>
+    <button id="read-nfc">Read NFC</button>
+    <p id="nfc-data">Bring an NFC tag near your phone to read data.</p>
+
+    <script>
+        document.getElementById('read-nfc').addEventListener('click', async () => {
+            try {
+                const ndef = new NDEFReader();
+                await ndef.scan();
+                document.getElementById('nfc-data').textContent = 'Waiting for NFC tag...';
+
+                ndef.onreading = (event) => {
+                    const { serialNumber, message } = event;
+                    document.getElementById('nfc-data').textContent = `Tag read: ${serialNumber}`;
+                    
+                    for (const record of message.records) {
+                        if (record.recordType === 'text') {
+                            const textDecoder = new TextDecoder(record.encoding);
+                            document.getElementById('nfc-data').textContent += `\nData: ${textDecoder.decode(record.data)}`;
+                        }
+                    }
+                };
+            } catch (err) {
+                document.getElementById('nfc-data').textContent = `Error: ${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
