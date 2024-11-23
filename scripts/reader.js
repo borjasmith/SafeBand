@@ -1,32 +1,33 @@
-// Start scanning when the button is clicked
-function startScan() {
-  // Check if the browser supports NDEFReader
+async function startScan() {
   if ('NDEFReader' in window) {
-    const reader = new NDEFReader();
+    try {
+      const reader = new NDEFReader();
+      await reader.scan();  // Start the scan
 
-    // Try to start scanning for NFC tags
-    reader.scan().then(() => {
-      console.log('NFC scan started');
-      
-      // Event listener for when an NFC tag is scanned
-      reader.addEventListener('reading', event => {
-        const tag = event.message;
-        const tagContent = tag.records.map(record => record.data).join(', '); // Joining the data if multiple records
-        
-        // Display the tag content in the input field
-        document.getElementById('nfcReader').value = tagContent;
+      reader.onreading = (event) => {
+        const { message } = event;
+        if (message.records.length === 0) {
+          console.log("This tag contains no readable NDEF data.");
+        } else {
+          message.records.forEach(record => {
+            const tagContent = new TextDecoder().decode(record.data);
+            console.log('Tag content:', tagContent);
+          });
+        }
+      };
 
-        // Log the NFC scan to the backend
-        logNfc(tagContent);
-      });
-      
-    }).catch(error => {
-      console.error('Error starting NFC scan:', error);
-    });
+      reader.onerror = () => {
+        console.log("This tag is not supported.");
+      };
+
+    } catch (error) {
+      console.log("An error occurred while reading the NFC tag:", error);
+    }
   } else {
-    alert('NFC is not supported in your browser.');
+    alert('Web NFC API is not supported in this browser.');
   }
 }
+
 
 // Send NFC log to the backend
 function logNfc(content) {
