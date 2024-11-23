@@ -1,16 +1,22 @@
 async function startScan() {
   if ('NDEFReader' in window) {
     try {
-      const reader = new NDEFReader();
-      await reader.scan();  // Start the scan
-
-      console.log("LEYENDO")
-
-      reader.onreading = (event) => {
+      const ndef = new NDEFReader();
+      
+      // Start scanning for NFC tags
+      await ndef.scan();
+      console.log("Scan started successfully.");
+      
+      // Handling tag reading event
+      ndef.onreading = (event) => {
+        console.log("NDEF message read.");
         const { message } = event;
+
+        // Check if the tag contains NDEF records
         if (message.records.length === 0) {
           console.log("This tag contains no readable NDEF data.");
         } else {
+          // Loop through each NDEF record and log its content
           message.records.forEach(record => {
             const tagContent = new TextDecoder().decode(record.data);
             console.log('Tag content:', tagContent);
@@ -18,17 +24,19 @@ async function startScan() {
         }
       };
 
-      reader.onerror = () => {
-        console.log("This tag is not supported., hora de harcodear");
+      // Handling reading error
+      ndef.onreadingerror = (event) => {
+        console.log("Error! Cannot read data from the NFC tag. Try a different one?");
       };
-
+      
     } catch (error) {
-      console.log("An error occurred while reading the NFC tag:", error);
+      console.log(`Error! Scan failed to start: ${error}.`);
     }
   } else {
     alert('Web NFC API is not supported in this browser.');
   }
 }
+
 
 
 // Send NFC log to the backend
