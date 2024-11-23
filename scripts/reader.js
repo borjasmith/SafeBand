@@ -46,13 +46,13 @@ async function startScan() {
 // Send NFC log to the backend
 function logNfc(content) {
   console.log('Logging information.')
-  fetch('/api/nfc-logs', {
+  fetch('/api/log-nfc', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      tagContent: content,
+      nfcData: content,
       action: 'scanned',
       timestamp: new Date(),
     })
