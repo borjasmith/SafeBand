@@ -1,49 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFC Logs</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFC Logs</title>
 </head>
 <body>
-    <h1>NFC Logs</h1>
-    <ul id="logs-list">
-        <!-- NFC logs will be appended here -->
-    </ul>
-    <button id="clear-logs">Clear Logs</button>
-    <a href="index.html">Go Back to NFC Reader</a>
+  <h1>NFC Logs</h1>
+  <div id="nfcLogs"></div>
 
-    <script>
-        function loadLogs() {
-            fetch('http://localhost:3000/logs')
-                .then((response) => response.json())
-                .then((logs) => {
-                    const logsList = document.getElementById('logs-list');
-                    logsList.innerHTML = ''; // Clear existing logs
+  <!-- Navigation links to switch between pages -->
+  <p><a href="index.html">Go to NFC Reader</a></p>
 
-                    if (logs.length === 0) {
-                        logsList.innerHTML = '<li>No logs available.</li>';
-                        return;
-                    }
+  <script>
+    // Fetch NFC logs and display them
+    async function fetchLogs() {
+      const response = await fetch('/api/get-logs');
+      const logs = await response.json();
+      const logsContainer = document.getElementById('nfcLogs');
+      logsContainer.innerHTML = logs.map(log => `<p>${log.timestamp} - ${log.nfcData}</p>`).join('');
+    }
 
-                    logs.forEach((log) => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `${log.timestamp}: Serial - ${log.serialNumber}, Data - ${JSON.parse(log.data).join(', ')}`;
-                        logsList.appendChild(listItem);
-                    });
-                })
-                .catch((err) => console.error('Error fetching logs:', err));
-        }
-
-        document.getElementById('clear-logs').addEventListener('click', () => {
-            fetch('http://localhost:3000/logs', { method: 'DELETE' })
-                .then(() => loadLogs())
-                .catch((err) => console.error('Error clearing logs:', err));
-        });
-
-        // Load logs on page load
-        loadLogs();
-
-    </script>
+    // Call fetchLogs on page load
+    window.onload = fetchLogs;
+  </script>
 </body>
 </html>
