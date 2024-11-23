@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Logs</title>
+</head>
+<body>
+    <h1>NFC Logs</h1>
+    <ul id="logs-list">
+        <!-- NFC logs will be appended here -->
+    </ul>
+    <button id="clear-logs">Clear Logs</button>
+    <a href="index.html">Go Back to NFC Reader</a>
+
+    <script>
+        function loadLogs() {
+            fetch('http://localhost:3000/logs')
+                .then((response) => response.json())
+                .then((logs) => {
+                    const logsList = document.getElementById('logs-list');
+                    logsList.innerHTML = ''; // Clear existing logs
+
+                    if (logs.length === 0) {
+                        logsList.innerHTML = '<li>No logs available.</li>';
+                        return;
+                    }
+
+                    logs.forEach((log) => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${log.timestamp}: Serial - ${log.serialNumber}, Data - ${JSON.parse(log.data).join(', ')}`;
+                        logsList.appendChild(listItem);
+                    });
+                })
+                .catch((err) => console.error('Error fetching logs:', err));
+        }
+
+        document.getElementById('clear-logs').addEventListener('click', () => {
+            fetch('http://localhost:3000/logs', { method: 'DELETE' })
+                .then(() => loadLogs())
+                .catch((err) => console.error('Error clearing logs:', err));
+        });
+
+        // Load logs on page load
+        loadLogs();
+
+    </script>
+</body>
+</html>

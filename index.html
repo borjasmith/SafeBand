@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFC Reader</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Backend Interaction</title>
+  <script>
+    // Fetch the backend URL from the .env file or environment variable
+    const backendUrl = process.env.BACKEND_URL; // Replace with default URL
+
+    // Function to fetch data from the backend
+    async function getBackendData() {
+      try {
+        const response = await fetch(`${backendUrl}/api/data`); // Replace '/api/data' with your API endpoint
+        const data = await response.json();
+        document.getElementById('data').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    // Fetch data when the page is loaded
+    window.onload = getBackendData;
+  </script>
 </head>
 <body>
-    <h1>Phone NFC Reader</h1>
-    <button id="read-nfc">Read NFC</button>
-    <p id="nfc-data">Bring an NFC tag near your phone to read data.</p>
-
-    <script>
-        document.getElementById('read-nfc').addEventListener('click', async () => {
-            try {
-                const ndef = new NDEFReader();
-                await ndef.scan();
-                document.getElementById('nfc-data').textContent = 'Waiting for NFC tag...';
-
-                ndef.onreading = (event) => {
-                    const { serialNumber, message } = event;
-                    document.getElementById('nfc-data').textContent = `Tag read: ${serialNumber}`;
-                    
-                    for (const record of message.records) {
-                        if (record.recordType === 'text') {
-                            const textDecoder = new TextDecoder(record.encoding);
-                            document.getElementById('nfc-data').textContent += `\nData: ${textDecoder.decode(record.data)}`;
-                        }
-                    }
-                };
-            } catch (err) {
-                document.getElementById('nfc-data').textContent = `Error: ${err.message}`;
-            }
-        });
-    </script>
+  <h1>Backend Data</h1>
+  <pre id="data">Loading...</pre>
 </body>
 </html>
