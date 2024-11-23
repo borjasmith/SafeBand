@@ -4,6 +4,8 @@ async function startScan() {
       const reader = new NDEFReader();
       await reader.scan();  // Start the scan
 
+      console.log("LEYENDO")
+
       reader.onreading = (event) => {
         const { message } = event;
         if (message.records.length === 0) {
@@ -17,7 +19,7 @@ async function startScan() {
       };
 
       reader.onerror = () => {
-        console.log("This tag is not supported.");
+        console.log("This tag is not supported., hora de harcodear");
       };
 
     } catch (error) {
