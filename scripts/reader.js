@@ -20,6 +20,9 @@ async function startScan() {
           message.records.forEach(record => {
             const tagContent = new TextDecoder().decode(record.data);
             console.log('Tag content:', tagContent);
+
+            // Call the logNfc function with the tag content
+            logNfc(tagContent);
           });
         }
       };
@@ -39,8 +42,10 @@ async function startScan() {
 
 
 
+
 // Send NFC log to the backend
 function logNfc(content) {
+  console.log('Logging information.')
   fetch('/api/nfc-logs', {
     method: 'POST',
     headers: {
