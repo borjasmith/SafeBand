@@ -4,52 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NFC Reader</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>NFC Reader</h1>
-  <button id="readNfcBtn">Read NFC</button>
-  <div id="nfcData"></div>
 
-  <!-- Navigation links to switch between pages -->
-  <p><a href="logs.html">Go to NFC Logs</a></p>
+  <div class="container" id="reader-page">
+    <header>
+      <h1>NFC Reader</h1>
+    </header>
 
-  <script>
-    const readNfcBtn = document.getElementById('readNfcBtn');
-    const nfcDataDiv = document.getElementById('nfcData');
+    <main>
+      <p>Scan your NFC tag below to log the information:</p>
+      <input type="text" id="nfcReader" placeholder="Scan NFC tag here..." readonly>
+      <button onclick="startScan()">Start Scanning</button>
+    </main>
+  </div>
 
-    // Check if NFC is supported
-    if ('NFC' in window) {
-      console.log('NFC supported');
-    } else {
-      alert('NFC not supported in this browser');
-    }
-
-    // Start reading NFC
-    readNfcBtn.addEventListener('click', async () => {
-      try {
-        const nfcReader = new NDEFReader();
-        await nfcReader.scan();
-        nfcReader.onreading = (event) => {
-          const message = event.message;
-          let nfcData = "";
-          for (let record of message.records) {
-            nfcData += `<p>Type: ${record.recordType}, Data: ${new TextDecoder().decode(record.data)}</p>`;
-          }
-          nfcDataDiv.innerHTML = nfcData;
-
-          // Send NFC data to backend
-          fetch('/api/log-nfc', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nfcData: new TextDecoder().decode(message.records[0].data) })
-          });
-        };
-      } catch (error) {
-        console.error('Error reading NFC:', error);
-      }
-    });
-  </script>
+  <script src="./scripts/reader.js"></script>
 </body>
 </html>
