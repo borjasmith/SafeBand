@@ -22,8 +22,7 @@ const NfcReader = () => {
                 action: 'scanned',
                 timestamp: new Date().toISOString(),
               });
-              console.log('NFC data logged successfully.');
-              console.log(tagContent)
+              console.log('NFC data logged successfully.', tagContent);
             } catch (error) {
               console.error('Error saving NFC log:', error);
             }

@@ -10,6 +10,7 @@ const Logs = () => {
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
         const response = await axios.get(`${backendUrl}/api/get-logs`);
         setLogs(response.data.logs);
+        console.log(response.data.logs)
       } catch (error) {
         console.error('Error fetching logs:', error);
       }
