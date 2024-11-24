@@ -44,33 +44,49 @@ async function startScan() {
 
 
 // Send NFC log to the backend
-function logNfc(content) {
+// function logNfc(content) {
+//   fetch('/api/log-nfc', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       nfcData: content,
+//       action: 'scanned',
+//       timestamp: new Date(),
+//     }),
+//   })
+//     .then(response => {
+//       console.log('Raw response:', response);
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+
+//       // Check Content-Type before parsing
+//       const contentType = response.headers.get('Content-Type') || '';
+//       if (contentType.includes('application/json')) {
+//         return response.json(); // Parse JSON if Content-Type is correct
+//       } else {
+//         throw new Error('Response is not JSON.');
+//       }
+//     })
+//     .then(data => console.log('Log saved:', data))
+//     .catch(error => console.error('Error saving NFC log:', error));
+// }
+
+function logNfc(nfcData) { // Changed parameter to match backend
   fetch('/api/log-nfc', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      nfcData: content,
+      nfcData, // Changed key to match backend
       action: 'scanned',
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     }),
   })
-    .then(response => {
-      console.log('Raw response:', response);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Check Content-Type before parsing
-      const contentType = response.headers.get('Content-Type') || '';
-      if (contentType.includes('application/json')) {
-        return response.json(); // Parse JSON if Content-Type is correct
-      } else {
-        throw new Error('Response is not JSON.');
-      }
-    })
+    .then(response => response.json())
     .then(data => console.log('Log saved:', data))
     .catch(error => console.error('Error saving NFC log:', error));
 }
-
