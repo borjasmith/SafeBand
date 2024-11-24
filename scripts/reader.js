@@ -74,19 +74,27 @@ async function startScan() {
 //     .catch(error => console.error('Error saving NFC log:', error));
 // }
 
-function logNfc(nfcData) { // Changed parameter to match backend
+function logNfc(nfcData) {
   fetch('/api/log-nfc', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      nfcData, // Changed key to match backend
+      nfcData,
       action: 'scanned',
       timestamp: new Date().toISOString(),
     }),
   })
-    .then(response => response.json())
-    .then(data => console.log('Log saved:', data))
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Read the response as text
+      return response.text();
+    })
+    .then(message => console.log('Log saved:', message))
     .catch(error => console.error('Error saving NFC log:', error));
 }
+
