@@ -2,6 +2,7 @@
 window.onload = function() {
   fetch('/api/get-logs') // Matches the backend route
   .then(response => {
+    console.log('Response:', response)
     if (!response.ok) { 
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
