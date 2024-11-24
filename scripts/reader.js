@@ -45,24 +45,30 @@ async function startScan() {
 
 // Send NFC log to the backend
 function logNfc(content) {
-  console.log('Logging information.');
   fetch('/api/log-nfc', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      nfcData: content, // Ensure this matches the backend's expected key
+      nfcData: content,
       action: 'scanned',
       timestamp: new Date(),
     }),
   })
     .then(response => {
-      console.log('Raw response:', response); // Log the response object
+      console.log('Raw response:', response);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.json(); // Parse the response JSON
+
+      // Check Content-Type before parsing
+      const contentType = response.headers.get('Content-Type') || '';
+      if (contentType.includes('application/json')) {
+        return response.json(); // Parse JSON if Content-Type is correct
+      } else {
+        throw new Error('Response is not JSON.');
+      }
     })
     .then(data => console.log('Log saved:', data))
     .catch(error => console.error('Error saving NFC log:', error));
