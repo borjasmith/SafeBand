@@ -1,13 +1,12 @@
 // Fetch NFC logs from the backend and display them in the table
 window.onload = function() {
-  // const backendUrl = import.meta.env.BACKEND_URL;
-
-  fetch(`/api/get-logs`, {
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
+  fetch(`${backendUrl}/api/get-logs`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  })
+  })  
   .then(response => {
     console.log('Response:', response)
     if (!response.ok) { 
