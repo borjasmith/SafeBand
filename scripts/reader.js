@@ -94,7 +94,7 @@ function logNfc(nfcData) {
       // Read the response as text
       return response.text();
     })
-    .then(message => console.log('Log saved:', response))
+    .then(message => console.log('Log saved:', message))
     .catch(error => console.error('Error saving NFC log:', error));
 }
 
