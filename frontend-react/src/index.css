@@ -1,56 +1,100 @@
-body {
+/* General Styles */
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f0f8ff;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.app-container {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-}
-
-.header {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  display: flex;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: space-between;
 }
 
-.logo {
-  height: 50px;
-}
-
-.nav {
-  display: flex;
-  gap: 20px;
-}
-
-.nav a {
+/* Blue Tab on Top */
+.header {
+  background-color: #1e90ff;
   color: white;
-  text-decoration: none;
-  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
-.nav a:hover {
-  text-decoration: underline;
+button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
+button:hover {
+  background-color: #187bcd;
+}
+
+/* Centered Content */
 .content {
-  flex: 1;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  padding-top: 80px; /* Adjust based on the height of the header */
+}
+
+/* Log Table Styles */
+table {
+  width: 80%;
+  margin-top: 2rem;
+  border-collapse: collapse;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+td {
+  background-color: white;
+}
+
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+table, th, td {
+  border-radius: 8px;
+}
+
+tr:hover {
+  background-color: #e7f3ff;
+}
+
+/* Apply Styles to the Content Area of Each Page */
+.nfc-reader, .logs {
+  width: 100%;
+  max-width: 960px;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 20px;
-}
-
-.page-container {
-  text-align: center;
-  width: 100%;
-}
-
-h2 {
-  margin-bottom: 20px;
 }
