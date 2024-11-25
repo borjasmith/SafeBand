@@ -18,9 +18,8 @@ const NfcReader = () => {
 
             try {
               await axios.post('/api/log-nfc', {
-                nfcData: tagContent,
+                tagContent: tagContent,
                 action: 'scanned',
-                timestamp: new Date().toISOString(),
               });
               console.log('NFC data logged successfully.', tagContent);
             } catch (error) {
