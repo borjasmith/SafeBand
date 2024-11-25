@@ -1,3 +1,4 @@
+// NfcReader.jsx
 import React from 'react';
 import axios from 'axios';
 
@@ -18,8 +19,8 @@ const NfcReader = () => {
 
             try {
               await axios.post('/api/log-nfc', {
-                tagContent: tagContent,
-                action: 'scanned',
+                "tagContent": tagContent,
+                "action": "scanned",
               });
               console.log('NFC data logged successfully.', tagContent);
             } catch (error) {
