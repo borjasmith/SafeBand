@@ -19,8 +19,8 @@ const NfcReader = () => {
             const backendUrl = process.env.VITE_BACKEND_URL || 'http://localhost:3000';
             try {
               await axios.post(`${backendUrl}/api/log-nfc`, {
-                "tagContent": tagContent,
-                "action": "scanned",
+                tagContent: tagContent,
+                action: "scanned",
               });
               console.log('NFC data logged successfully.', tagContent);
             } catch (error) {
