@@ -1,3 +1,4 @@
+// App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LogsView from './views/LogsView';
@@ -10,16 +11,16 @@ const App = () => (
     <div className="app-container">
       <header className="header">
         <img src={logo} alt="Logo" className="logo" />
-        <nav className="nav">
+        {/* <nav className="nav">
           <Link to="/scan">Scan</Link>
           <Link to="/logs">Logs</Link>
-        </nav>
+        </nav> */}
       </header>
       <div className="content">
         <Routes>
-          <Route path="/" element={<ScanView />} />
+          <Route path="/" element={<LogsView />} />
           <Route path="/scan" element={<ScanView />} />
-          <Route path="/logs" element={<LogsView />} />
+          {/* <Route path="/write" element={<Writeiew />} /> */}
         </Routes>
       </div>
     </div>

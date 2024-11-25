@@ -25,9 +25,9 @@ const Logs = () => {
       <table>
         <thead>
           <tr>
-            <th>Timestamp</th>
-            <th>Tag Content</th>
-            <th>Action</th>
+            <th>Hora</th>
+            <th>Pulsera</th>
+            <th>Acción</th>
           </tr>
         </thead>
         <tbody>
