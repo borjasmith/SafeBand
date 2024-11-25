@@ -40,7 +40,11 @@ const NfcReader = () => {
     }
   };
 
-  return <button onClick={startScan}>Start NFC Scan</button>;
+  return (
+    <div className="nfc-reader">
+      <button onClick={startScan}>Start NFC Scan</button>
+    </div>
+  );
 };
 
 export default NfcReader;
