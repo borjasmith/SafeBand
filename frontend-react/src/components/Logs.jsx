@@ -34,7 +34,7 @@ const Logs = () => {
           {logs.map((log, index) => (
             <tr key={index}>
               <td>{new Date(log.timestamp).toLocaleString()}</td>
-              <td>{log.tagContent}</td>
+              <td>{log.tagcontent}</td>
               <td>{log.action}</td>
             </tr>
           ))}
