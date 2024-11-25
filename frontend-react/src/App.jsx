@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LogsView from './views/LogsView';
 import ScanView from './views/ScanView';
 import logo from './assets/imgs/logo.jpg';
-import './index.css';
+import './assets/styles/index.css';
 
 const App = () => (
   <Router>
