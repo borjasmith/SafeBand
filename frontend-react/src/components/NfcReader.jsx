@@ -16,9 +16,9 @@ const NfcReader = () => {
           message.records.forEach(async (record) => {
             const tagContent = new TextDecoder().decode(record.data);
             console.log('Tag content:', tagContent);
-
+            const backendUrl = process.env.VITE_BACKEND_URL || 'http://localhost:3000';
             try {
-              await axios.post('/api/log-nfc', {
+              await axios.post(`${backendUrl}/api/log-nfc`, {
                 "tagContent": tagContent,
                 "action": "scanned",
               });
