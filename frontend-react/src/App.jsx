@@ -11,10 +11,9 @@ const App = () => (
     <div className="app-container">
       <header className="header">
         <img src={logo} alt="Logo" className="logo" />
-        {/* <nav className="nav">
+        <nav className="nav">
           <Link to="/scan">Scan</Link>
-          <Link to="/logs">Logs</Link>
-        </nav> */}
+        </nav>
       </header>
       <div className="content">
         <Routes>
