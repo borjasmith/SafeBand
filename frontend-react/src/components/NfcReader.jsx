@@ -1,6 +1,7 @@
 // NfcReader.jsx
 import React from 'react';
 import axios from 'axios';
+const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
 const NfcReader = () => {
   const startScan = async () => {
@@ -16,7 +17,6 @@ const NfcReader = () => {
           message.records.forEach(async (record) => {
             const tagContent = new TextDecoder().decode(record.data);
             console.log('Tag content:', tagContent);
-            const backendUrl = process.env.VITE_BACKEND_URL || 'http://localhost:3000';
             try {
               await axios.post(`${backendUrl}/api/log-nfc`, {
                 tagContent: tagContent,
